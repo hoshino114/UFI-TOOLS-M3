@@ -67,6 +67,8 @@ function updateTextColor(e) {
     const gray = Math.round((value / 100) * 255);
     const color = `rgb(${gray}, ${gray}, ${gray})`;
     currentTextColor = color;
+    //用户主动自定义过字体颜色后才覆盖 M3 主题的文字色
+    localStorage.setItem('textColorCustom', 'true');
     updateColor();
     //保存进度到localStorage
     localStorage.setItem('textColorPer', value);
@@ -127,12 +129,11 @@ function updateColor() {
 
     // 修改 :root 中的 CSS 变量
     document.documentElement.style.setProperty('--dark-bgi-color', color);
-    document.documentElement.style.setProperty('--dark-tag-color', color);
-    document.documentElement.style.setProperty('--dark-btn-color', btnColor);
-    document.documentElement.style.setProperty('--dark-title-color', btnActiveColor);
-    document.documentElement.style.setProperty('--dark-btn-color-active', btnActiveColor);
-    document.documentElement.style.setProperty('--dark-btn-disabled-color', btnDisabledColor);
-    document.documentElement.style.setProperty('--dark-text-color', currentTextColor);
+    //M3 主题引擎（scheme.js）负责组件颜色＜此处仅保留背景遮罩色（--dark-bgi-color）
+    //自定义字体颜色（用户拖动过滑杆）才覆盖文字色
+    if (localStorage.getItem('textColorCustom') === 'true') {
+        document.documentElement.style.setProperty('--dark-text-color', currentTextColor);
+    }
     document.documentElement.style.setProperty('--blur-rate', homeBlurSwitch ? "4px" : "0");
 
     //针对Safari -webkit-backdrop-filter 不支持css变量 进行修复

@@ -193,7 +193,7 @@
     "bg_setting_blur_toggle": "Bật hiệu ứng làm mờ trên trang chủ",
     "bg_setting_overlay_color": "Màu phủ nền",
     "bg_setting_text_color": "Màu chữ (đen–trắng)",
-    "bg_setting_theme_color": "Màu chủ đề (Sắc độ, Độ bão hòa, Độ sáng)",
+    "bg_setting_theme_color": "Màu phủ nền (sắc độ, độ bão hòa, độ sáng)",
     "bg_setting_opacity": "Độ mờ chủ đề",
     "reset_theme_btn": "Đặt lại chủ đề",
     "reset_theme_confirm": "Xác nhận đặt lại?",
@@ -934,5 +934,10 @@
     "time_h": "h",
     "time_min": "min",
     "time_s": "s",
-    "time_ms": "ms"
+    "time_ms": "ms",
+    "theme_scheme_title": "Giao diện",
+    "theme_mode_auto": "Tự động",
+    "theme_mode_light": "Sáng",
+    "theme_mode_dark": "Tối",
+    "theme_hue": "Tông màu chủ đạo"
 }

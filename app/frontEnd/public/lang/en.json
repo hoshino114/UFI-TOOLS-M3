@@ -193,7 +193,7 @@
     "bg_setting_blur_toggle": "Enable blur effect on homepage",
     "bg_setting_overlay_color": "Overlay color on background",
     "bg_setting_text_color": "Text color (black–white)",
-    "bg_setting_theme_color": "Theme color (Hue, Saturation, Brightness)",
+    "bg_setting_theme_color": "Overlay tint (hue, saturation, brightness)",
     "bg_setting_opacity": "Theme opacity",
     "reset_theme_btn": "Reset Theme",
     "reset_theme_confirm": "Confirm reset?",
@@ -934,5 +934,10 @@
     "time_h": "h",
     "time_min": "min",
     "time_s": "s",
-    "time_ms": "ms"
+    "time_ms": "ms",
+    "theme_scheme_title": "Interface theme",
+    "theme_mode_auto": "Auto",
+    "theme_mode_light": "Light",
+    "theme_mode_dark": "Dark",
+    "theme_hue": "Accent hue"
 }

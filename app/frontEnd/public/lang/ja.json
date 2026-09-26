@@ -194,7 +194,7 @@
     "bg_setting_blur_toggle": "ぼかし切替",
     "bg_setting_overlay_color": "オーバーレイ色",
     "bg_setting_text_color": "文字色(黒-白)",
-    "bg_setting_theme_color": "テーマ色(色・彩度・明度)",
+    "bg_setting_theme_color": "背景オーバーレイの色（色相・彩度・明度）",
     "bg_setting_opacity": "透明度",
     "reset_theme_btn": "テーマ初期化",
     "reset_theme_confirm": "初期化しますか？",
@@ -934,5 +934,10 @@
     "time_h": "h",
     "time_min": "min",
     "time_s": "s",
-    "time_ms": "ms"
+    "time_ms": "ms",
+    "theme_scheme_title": "インターフェーステーマ",
+    "theme_mode_auto": "自動",
+    "theme_mode_light": "ライト",
+    "theme_mode_dark": "ダーク",
+    "theme_hue": "テーマの色相"
 }

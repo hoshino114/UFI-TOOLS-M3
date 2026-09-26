@@ -195,7 +195,7 @@
     "bg_setting_blur_toggle": "主页毛玻璃开关",
     "bg_setting_overlay_color": "背景遮罩颜色",
     "bg_setting_text_color": "字体颜色(黑-白)",
-    "bg_setting_theme_color": "主题颜色(颜色、饱和度、亮度)",
+    "bg_setting_theme_color": "背景遮罩颜色(色相、饱和度、亮度)",
     "bg_setting_opacity": "主题透明度",
     "reset_theme_btn": "重置主题",
     "reset_theme_confirm": "确认重置？",
@@ -935,5 +935,10 @@
     "time_h": "时",
     "time_min": "分",
     "time_s": "秒",
-    "time_ms": "毫秒"
+    "time_ms": "毫秒",
+    "theme_scheme_title": "界面主题",
+    "theme_mode_auto": "自动",
+    "theme_mode_light": "浅色",
+    "theme_mode_dark": "深色",
+    "theme_hue": "主题色调"
 }

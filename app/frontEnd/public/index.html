@@ -1283,7 +1283,30 @@
                                 <input onchange="updateOverlaySwitch(event)" id="overlaySwitch" type="checkbox">
                             </label>
                         </p>
-                        <p><span data-i18n="bg_setting_text_color">字体颜色(黑-白)</span>&nbsp;：&nbsp;<span
+                        <div class="theme-section">
+                        <div class="section-title">🎨 <span data-i18n="theme_scheme_title">界面主题</span></div>
+                        <div class="scheme-mode">
+                            <button type="button" class="seg-btn" data-mode="auto" onclick="setSchemeMode(event)" data-i18n="theme_mode_auto">自动</button>
+                            <button type="button" class="seg-btn" data-mode="light" onclick="setSchemeMode(event)" data-i18n="theme_mode_light">浅色</button>
+                            <button type="button" class="seg-btn" data-mode="dark" onclick="setSchemeMode(event)" data-i18n="theme_mode_dark">深色</button>
+                        </div>
+                        <p style="display:flex;align-items:center;gap:8px;">
+                            <span data-i18n="theme_hue" style="white-space:nowrap;">主题色调</span>
+                            <input id="schemeHueEl" oninput="setSchemeHue(event)" style="flex:1;margin:0;" min="0" max="360" type="range">
+                            <span id="schemeHueValue" style="min-width:32px;text-align:right;">210°</span>
+                        </p>
+                        <div class="scheme-presets">
+                            <button type="button" class="swatch" data-hue="210" onclick="applySchemePreset(210)" style="background:hsl(210 80% 55%)"></button>
+                            <button type="button" class="swatch" data-hue="152" onclick="applySchemePreset(152)" style="background:hsl(152 80% 45%)"></button>
+                            <button type="button" class="swatch" data-hue="285" onclick="applySchemePreset(285)" style="background:hsl(285 80% 60%)"></button>
+                            <button type="button" class="swatch" data-hue="332" onclick="applySchemePreset(332)" style="background:hsl(332 80% 60%)"></button>
+                            <button type="button" class="swatch" data-hue="25" onclick="applySchemePreset(25)" style="background:hsl(25 90% 55%)"></button>
+                            <button type="button" class="swatch" data-hue="62" onclick="applySchemePreset(62)" style="background:hsl(62 85% 50%)"></button>
+                            <button type="button" class="swatch" data-hue="190" onclick="applySchemePreset(190)" style="background:hsl(190 80% 45%)"></button>
+                            <button type="button" class="swatch" data-hue="355" onclick="applySchemePreset(355)" style="background:hsl(355 80% 58%)"></button>
+                        </div>
+                    </div>
+                    <p><span data-i18n="bg_setting_text_color">字体颜色(黑-白)</span>&nbsp;：&nbsp;<span
                                 id="fontColorValue"></span></p>
                         <input id="textColorEl" oninput="updateTextColor(event)"
                             style="width: 100%;margin-left: 0;margin-right: 0;" min="0" max="100" type="range">
@@ -2314,6 +2337,7 @@
     <script src="/script/i18n.js"></script>
     <script src="/script/utils.js"></script>
     <script src="/script/theme.js"></script>
+    <script src="/script/scheme.js"></script>
     <script src="/script/charts.js"></script>
     <script src="/script/main.js"></script>
 </body>
