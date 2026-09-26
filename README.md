@@ -5,16 +5,28 @@
 > 同时也提供其他某兴展锐Android手机/平板支持
 
 > [!IMPORTANT]
-> **本仓库（UFI-TOOLS RE）是 [kanoqwq/UFI-TOOLS](https://github.com/kanoqwq/UFI-TOOLS) 的修改版（第三方修改），非官方原版。**
+> **本仓库（UFI-TOOLS-M3）是 [kanoqwq/UFI-TOOLS](https://github.com/kanoqwq/UFI-TOOLS)（完整版 / http-server-version 分支）的修改版**——第三方修改，GitHub Fork，非官方原版。
 >
-> 主要改动：
-> - Web 界面重构为 **Material 3 风格**，支持主题色调自定义（明暗双主题 + 色调滑杆）
-> - Web 服务端口改为 **2334**（原版 2333），不与原版冲突
-> - applicationId 改为 `com.minikano.f50_sms.redesign`，应用名 **UFI-TOOLS RE**，可与原版 App 共存
-> - `ufi_req` 命令行工具在 CI 中从源码重新编译
-> - **侧边栏布局重构**：侧边导航（主页 / 锁频段 / 锁基站 / 插件）+ 顶部按钮区 + 状态显示区；手机端侧边栏可收起（汉堡抽屉 + 遮罩）
-> - **插件管理支持上下移动**：插件管理中可用 ▲▼（或拖拽）调整插件顺序，侧边栏插件项顺序随之同步
+> 📦 下载 APK 请到本仓库 [Releases](../../releases)；应用名 **UFI-TOOLS RE**，与原版 App 同机共存。
+>
+> **改了什么：**
+>
+> 🎨 **Web 界面重构为 Material 3 风格**（前端整体重写，后端不动）
+> - 主题色调自定义：明暗双主题 + 色调滑杆（设置存 localStorage）
+> - **侧边栏布局重构**：侧边导航（主页 / 锁频段 / 锁基站 / TTYD / 插件）+ 顶部按钮区 + 状态显示区；手机端侧边栏可收起（汉堡抽屉 + 遮罩）
+> - **插件管理支持上下移动**：▲▼（或拖拽）调整插件顺序，侧边栏插件项顺序随之同步
+> - 移除分区标题旁的胶囊折叠开关，分区常驻展开（页面收起/切换由侧边栏导航接管）
+> - 顶栏细节修复（收起按钮 / 机型徽章垂直居中、侧边栏圆角），界面文案内置中/英/日/韩四语言
 > - 插件可在侧边栏注册专属页面：提供 `window.kanoPluginPages[插件名] = fn` 或在页面放置 `[data-kano-plugin-page="插件名"]` 容器
+>
+> 🔧 **为共存做的工程改动**
+> - Web 服务端口改为 **2334**（原版 2333），两个版本互不冲突
+> - applicationId 改为 `com.minikano.f50_sms.redesign`，应用名 **UFI-TOOLS RE**
+> - `ufi_req` 命令行工具在 CI 中从源码重新编译
+>
+> 🤖 **后端自动跟进上游**（`tools/sync_backend.py` + `.github/workflows/auto-sync.yml`）
+> - 上游后端有更新时，自动同步后端代码并重放上述端口/包名定制（含校验），构建 APK 发布到 [Releases](../../releases)
+> - 前端为本仓库重写，**不会**从上游同步；上游的前端改动不进入本仓库
 >
 > 其余功能、后端接口与业务逻辑保持上游原样；问题反馈请优先确认是否为本修改引入。原版版权归原作者所有（MIT）。
 
