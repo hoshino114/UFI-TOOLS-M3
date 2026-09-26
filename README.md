@@ -4,6 +4,17 @@
 > 支持远程管理、信号监控、系统控制、插件扩展等丰富功能  
 > 同时也提供其他某兴展锐Android手机/平板支持
 
+> [!IMPORTANT]
+> **本仓库（UFI-TOOLS RE）是 [kanoqwq/UFI-TOOLS](https://github.com/kanoqwq/UFI-TOOLS) 的修改版（第三方修改），非官方原版。**
+>
+> 主要改动：
+> - Web 界面重构为 **Material 3 风格**，支持主题色调自定义（明暗双主题 + 色调滑杆）
+> - Web 服务端口改为 **2334**（原版 2333），不与原版冲突
+> - applicationId 改为 `com.minikano.f50_sms.redesign`，应用名 **UFI-TOOLS RE**，可与原版 App 共存
+> - `ufi_req` 命令行工具在 CI 中从源码重新编译
+>
+> 其余功能、后端接口与业务逻辑保持上游原样；问题反馈请优先确认是否为本修改引入。原版版权归原作者所有（MIT）。
+
 **[UFI-TOOLS使用说明](https://github.com/kanoqwq/UFI-TOOLS/blob/http-server-version/User_Doc.md)**
 
 F50 / U30Air 通用安装教程：[📺 B站视频](https://www.bilibili.com/video/BV1qUHpzeEDd)  
