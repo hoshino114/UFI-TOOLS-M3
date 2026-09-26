@@ -97,6 +97,7 @@ jobs:
         if: steps.decide.outputs.build == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
         run: |
           APK=$(ls app/build/outputs/apk/debug/*.apk | head -1)
           VERSION=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' app/build.gradle.kts)
