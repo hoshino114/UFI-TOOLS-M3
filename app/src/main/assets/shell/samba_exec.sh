@@ -6,11 +6,11 @@ MAX_SIZE=$((4 * 1024 * 1024))  # 4MB = 4 * 1024 * 1024 bytes
 FLAG_FILE="/data/local/tmp/boot_once.flag"
 THRESHOLD=120  # uptime 120s
 
-SOCKET_DIR="/data/data/com.minikano.f50_sms/files"
+SOCKET_DIR="/data/data/com.minikano.f50_sms.redesign/files"
 SOCKET_FILE="$SOCKET_DIR/kano_root_shell.sock"
-SOCAT_PATH="/data/data/com.minikano.f50_sms/files/socat"
-TTYD_PATH="/data/data/com.minikano.f50_sms/files/ttyd"
-LOGIN_PATH="/data/data/com.minikano.f50_sms/files/login.sh"
+SOCAT_PATH="/data/data/com.minikano.f50_sms.redesign/files/socat"
+TTYD_PATH="/data/data/com.minikano.f50_sms.redesign/files/ttyd"
+LOGIN_PATH="/data/data/com.minikano.f50_sms.redesign/files/login.sh"
 BOOTUP_SCRIPT_PATH="/sdcard/ufi_tools_boot.sh"
 SCHEDULE_SCRIPT_PATH="/sdcard/ufi_tools_schedule.sh"
 KEEP_ALIVE_SCRIPT_PATH="$SOCKET_DIR/ufi_keep_alive.sh"
@@ -209,7 +209,7 @@ check_ttyd_running(){
       # fallback to ps -ef if pgrep fails
       if ! ps -ef | grep "ttyd --writable --port 1146 $LOGIN_PATH" | grep -v grep > /dev/null; then
           echo "[`date`] start ttyd..." >> "$LOG_FILE"
-          export PATH="/data/data/com.minikano.f50_sms/files:/data/data/com.termux/files/usr/bin:$PATH"
+          export PATH="/data/data/com.minikano.f50_sms.redesign/files:/data/data/com.termux/files/usr/bin:$PATH"
           "$TTYD_PATH" --writable --port 1146 $LOGIN_PATH &
       fi
   fi
@@ -253,22 +253,22 @@ lock_smb_conf(){
 }
 
 permission_keep(){
-    pm grant com.minikano.f50_sms android.permission.READ_SMS >/dev/null 2>&1 || true
-    pm grant com.minikano.f50_sms android.permission.RECEIVE_SMS >/dev/null 2>&1 || true
-    pm grant com.minikano.f50_sms android.permission.SEND_SMS >/dev/null 2>&1 || true
-    pm grant com.minikano.f50_sms android.permission.READ_EXTERNAL_STORAGE >/dev/null 2>&1 || true
-    pm grant com.minikano.f50_sms android.permission.WRITE_EXTERNAL_STORAGE >/dev/null 2>&1 || true
-    pm grant com.minikano.f50_sms android.permission.READ_PHONE_STATE >/dev/null 2>&1 || true
-    pm grant com.minikano.f50_sms android.permission.POST_NOTIFICATIONS >/dev/null 2>&1 || true
+    pm grant com.minikano.f50_sms.redesign android.permission.READ_SMS >/dev/null 2>&1 || true
+    pm grant com.minikano.f50_sms.redesign android.permission.RECEIVE_SMS >/dev/null 2>&1 || true
+    pm grant com.minikano.f50_sms.redesign android.permission.SEND_SMS >/dev/null 2>&1 || true
+    pm grant com.minikano.f50_sms.redesign android.permission.READ_EXTERNAL_STORAGE >/dev/null 2>&1 || true
+    pm grant com.minikano.f50_sms.redesign android.permission.WRITE_EXTERNAL_STORAGE >/dev/null 2>&1 || true
+    pm grant com.minikano.f50_sms.redesign android.permission.READ_PHONE_STATE >/dev/null 2>&1 || true
+    pm grant com.minikano.f50_sms.redesign android.permission.POST_NOTIFICATIONS >/dev/null 2>&1 || true
 
-    appops set com.minikano.f50_sms GET_USAGE_STATS allow >/dev/null 2>&1 || true
-    appops set com.minikano.f50_sms android:get_usage_stats allow >/dev/null 2>&1 || true
-    appops set com.minikano.f50_sms POST_NOTIFICATION allow >/dev/null 2>&1 || true
-    appops set com.minikano.f50_sms AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore >/dev/null 2>&1 || true
-    appops set --uid $(dumpsys package com.minikano.f50_sms 2>/dev/null | grep -m1 userId= | cut -d= -f2) AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore
-    settings put secure enabled_notification_listeners com.minikano.f50_sms/com.minikano.f50_sms.MyListenerService >/dev/null 2>&1 || true
-    dumpsys deviceidle whitelist +com.minikano.f50_sms >/dev/null 2>&1 || true
-    cmd app_hibernation set-state com.minikano.f50_sms false >/dev/null 2>&1 || true
+    appops set com.minikano.f50_sms.redesign GET_USAGE_STATS allow >/dev/null 2>&1 || true
+    appops set com.minikano.f50_sms.redesign android:get_usage_stats allow >/dev/null 2>&1 || true
+    appops set com.minikano.f50_sms.redesign POST_NOTIFICATION allow >/dev/null 2>&1 || true
+    appops set com.minikano.f50_sms.redesign AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore >/dev/null 2>&1 || true
+    appops set --uid $(dumpsys package com.minikano.f50_sms.redesign 2>/dev/null | grep -m1 userId= | cut -d= -f2) AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore
+    settings put secure enabled_notification_listeners com.minikano.f50_sms.redesign/com.minikano.f50_sms.MyListenerService >/dev/null 2>&1 || true
+    dumpsys deviceidle whitelist +com.minikano.f50_sms.redesign >/dev/null 2>&1 || true
+    cmd app_hibernation set-state com.minikano.f50_sms.redesign false >/dev/null 2>&1 || true
     settings put global stay_on_while_plugged_in 0
     echo "[`date`] permission_keep done!" >> "$LOG_FILE"
 }

@@ -22,9 +22,9 @@ import kotlin.concurrent.thread
 
 class WebService : Service() {
     private var webServer: KanoWebServer? = null
-    private val port = 2333
-    private val SERVER_INTENT = "com.minikano.f50_sms.SERVER_STATUS_CHANGED"
-    private val UI_INTENT = "com.minikano.f50_sms.UI_STATUS_CHANGED"
+    private val port = 2334
+    private val SERVER_INTENT = "com.minikano.f50_sms.redesign.SERVER_STATUS_CHANGED"
+    private val UI_INTENT = "com.minikano.f50_sms.redesign.UI_STATUS_CHANGED"
 
     @Volatile
     private var allowAutoStart = true
@@ -95,7 +95,7 @@ class WebService : Service() {
                 allowAutoStart = true
                 try {
                     Log.d("UFI_TOOLS_LOG", "正在启动web服务，绑定地址：http://0.0.0.0:$port")
-                    val server = KanoWebServer(applicationContext, 2333, currentIp)
+                    val server = KanoWebServer(applicationContext, port, currentIp)
                     server.start()
                     webServer = server
                     sendStickyBroadcast(Intent(SERVER_INTENT).putExtra("status", true))

@@ -7,7 +7,7 @@
 
 **服务地址**
 
-- UFI-TOOLS Web 服务监听 `0.0.0.0:2333`，浏览器访问 `http://<设备IP>:2333/`。
+- UFI-TOOLS Web 服务监听 `0.0.0.0:2334`，浏览器访问 `http://<设备IP>:2334/`。
 - 所有 UFI-TOOLS 自身 API 以 `/api/` 开头；前端以相对路径 `/api` 发起同源请求。
 - 中兴官方 WEB 后台运行在 `http://<设备IP>:8080`，`/api/goform/...` 会被反向代理到该地址。
 
@@ -455,7 +455,7 @@ GET /api/AT?command=AT%2BCGEQOSRDP%3D1&slot=0
 
 - `status`：`idle`（空闲）/ `downloading`（下载中）/ `done`（完成）/ `error`（失败）；
 - `percent`：0-100；`error`：失败原因，无错误时为空字符串。
-- 下载到设备 `Android/data/com.minikano.f50_sms/files/downloaded_app.apk`，同一 URL 下载中去重。
+- 下载到设备 `Android/data/com.minikano.f50_sms.redesign/files/downloaded_app.apk`，同一 URL 下载中去重。
 
 #### `POST /api/install_apk`
 
@@ -857,14 +857,14 @@ GET /api/goform/goform_get_cmd_process?multi_data=1&isTest=false&cmd=sms_data_to
 
 ## 4. CLI 请求工具
 
-UFI-TOOLS 内置了两个 CLI 请求工具，部署在设备 `/data/data/com.minikano.f50_sms/files/` 目录下，可直接在 adb/root shell 中使用。
+UFI-TOOLS 内置了两个 CLI 请求工具，部署在设备 `/data/data/com.minikano.f50_sms.redesign/files/` 目录下，可直接在 adb/root shell 中使用。
 
 ### 4.1 `ufi_req` —— 请求 UFI-TOOLS `/api/` 接口
 
-自动完成签名（`kano-t`/`kano-sign`）与鉴权（`authorization`）。**在不传 `-pass` 时会自动读取本机存储的口令哈希**（`/data/data/com.minikano.f50_sms/shared_prefs/kano_ZTE_store.xml` 中的 `login_token`），因此设备本机使用时无需知道明文口令。
+自动完成签名（`kano-t`/`kano-sign`）与鉴权（`authorization`）。**在不传 `-pass` 时会自动读取本机存储的口令哈希**（`/data/data/com.minikano.f50_sms.redesign/shared_prefs/kano_ZTE_store.xml` 中的 `login_token`），因此设备本机使用时无需知道明文口令。
 
 ```shell
-:/ # /data/data/com.minikano.f50_sms/files/ufi_req
+:/ # /data/data/com.minikano.f50_sms.redesign/files/ufi_req
 ufi_req - MiniKano签名请求工具
 
 用法：
@@ -879,7 +879,7 @@ ufi_req - MiniKano签名请求工具
   -e string
         请求路径或完整URL，如 "/api/xxx" (必填)
   -host string
-        目标地址，比如 "192.168.0.1" 或 "192.168.0.1:2333" (选填) (default "192.168.0.1:2333")
+        目标地址，比如 "192.168.0.1" 或 "192.168.0.1:2334" (选填) (default "192.168.0.1:2334")
   -pass string
         密码明文，用于生成 Authorization=sha256(password) (可以不填，不填自动获取本机的密码)
   -t int
@@ -896,8 +896,8 @@ ufi_req - MiniKano签名请求工具
 自动完成官方后台登录（LOGIN 获取 Cookie）与写操作所需的 `AD` 签名计算。目标固定为 `http://<ip>:8080`。**`-pwd` 可省略**（有内置默认值）。
 
 ```shell
-:/ # /data/data/com.minikano.f50_sms/files/zreq
-Usage of /data/data/com.minikano.f50_sms/files/zreq:
+:/ # /data/data/com.minikano.f50_sms.redesign/files/zreq
+Usage of /data/data/com.minikano.f50_sms.redesign/files/zreq:
   -body string
         POST 请求体，格式：goformId=LOGIN&isTest=false
   -ip string

@@ -843,7 +843,7 @@ function main_func() {
         let isEnabled = await checkAdvancedFunc()
         if (isEnabled) {
             try {
-                const res = await runShellWithRoot(`/data/data/com.minikano.f50_sms/files/imei_reader`)
+                const res = await runShellWithRoot(`/data/data/com.minikano.f50_sms.redesign/files/imei_reader`)
                 const imei = res.content.replace(/IMEI[0-9]:/g, "").split('\n')[0]
                 cachedDiagImeiQueryResult = imei
                 return imei
@@ -5278,7 +5278,7 @@ function main_func() {
                 closeModal('#LANManagementModal')
                 setTimeout(() => {
                     //循环等待
-                    let newURL = 'http://' + data.lanIp + ':2333'
+                    let newURL = 'http://' + data.lanIp + ':2334'
                     window.location.href = newURL
                 }, 30000);
             } else {
@@ -6160,10 +6160,10 @@ echo ${flag ? '1' : '0'} > /sys/devices/system/cpu/cpu3/online
             const res = await runShellWithRoot("getprop ro.boot.slot_suffix")
             let ab = res.content.includes('a') ? "A" : "B"
             createToast(`${t('your_boot_slot')}：${ab}`, '')
-            await runShellWithRoot('mkdir /data/data/com.minikano.f50_sms/files/uploads')
+            await runShellWithRoot('mkdir /data/data/com.minikano.f50_sms.redesign/files/uploads')
             const outFile = `boot_${ab.toLowerCase()}.img`
-            await runShellWithRoot(`rm -f /data/data/com.minikano.f50_sms/files/uploads/${outFile}`)
-            const command = `dd if=/dev/block/by-name/boot_${ab.toLowerCase()} of=/data/data/com.minikano.f50_sms/files/uploads/${outFile}`
+            await runShellWithRoot(`rm -f /data/data/com.minikano.f50_sms.redesign/files/uploads/${outFile}`)
+            const command = `dd if=/dev/block/by-name/boot_${ab.toLowerCase()} of=/data/data/com.minikano.f50_sms.redesign/files/uploads/${outFile}`
             let result = await runShellWithRoot(command)
             if (result.success) {
                 AD_RESULT.innerHTML = `<strong style="font-size: 12px;">${t('your_boot_slot')}：${ab}，${t('downloading')}：boot_${ab}.img...</strong>`
@@ -6810,7 +6810,7 @@ echo ${flag ? '1' : '0'} > /sys/devices/system/cpu/cpu3/online
         if (AT_RESULT) {
             AT_RESULT.innerHTML = t('toast_running_please_wait')
             try {
-                const res = await runShellWithRoot(`/data/data/com.minikano.f50_sms/files/imei_reader`)
+                const res = await runShellWithRoot(`/data/data/com.minikano.f50_sms.redesign/files/imei_reader`)
                 //清空imei展示缓存
                 resetDiagImeiCache()
                 AT_RESULT.innerHTML = `<p style="font-weight:bolder;overflow:hidden" onclick="copyText(event)">${res.content.replaceAll('\n', "<br>")}</p>`
@@ -7793,7 +7793,7 @@ echo ${flag ? '1' : '0'} > /sys/devices/system/cpu/cpu3/online
     }
 
     const handleOpenUploadFilesList = async () => {
-        let res = await runShellWithUser(`ls /data/data/com.minikano.f50_sms/files/uploads/`)
+        let res = await runShellWithUser(`ls /data/data/com.minikano.f50_sms.redesign/files/uploads/`)
         if (!res.success) return createToast(t('read_file_fail'), 'red')
         if (res.content && res.content.content && res.content.content.split("\n") && res.content.content.split("\n").length) {
             let { el, close } = createFixedToast('kano_edit_ufi_media_file_list_message', `

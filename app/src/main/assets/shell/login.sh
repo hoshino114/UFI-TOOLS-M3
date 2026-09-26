@@ -8,8 +8,8 @@ umask 077
 MAX_RETRIES=3
 retry_count=0
 
-PASS_FILE="/data/data/com.minikano.f50_sms/shared_prefs/kano_ZTE_store.xml"
-SHA256_BIN="/data/data/com.minikano.f50_sms/files/sha256"
+PASS_FILE="/data/data/com.minikano.f50_sms.redesign/shared_prefs/kano_ZTE_store.xml"
+SHA256_BIN="/data/data/com.minikano.f50_sms.redesign/files/sha256"
 BACKUP_PASS="Wa@9w+YWRtaW4="
 
 # Extract login_token from XML

@@ -106,7 +106,7 @@ type Item struct {
 }
 
 func GetLoginTokenSHA256() (string, error) {
-	path := "/data/data/com.minikano.f50_sms/shared_prefs/kano_ZTE_store.xml"
+	path := "/data/data/com.minikano.f50_sms.redesign/shared_prefs/kano_ZTE_store.xml"
 
 	data, err := os.ReadFile(path)
 	if err != nil {
@@ -142,7 +142,7 @@ func main() {
 	//获取本机sha256密码
 	tokenSHA256, _ := GetLoginTokenSHA256()
 
-	flag.StringVar(&host, "host", "192.168.0.1:2333", `目标地址，比如 "192.168.0.1" 或 "192.168.0.1:2333" (选填)`)
+	flag.StringVar(&host, "host", "192.168.0.1:2334", `目标地址，比如 "192.168.0.1" 或 "192.168.0.1:2334" (选填)`)
 	flag.StringVar(&password, "pass", "", "密码明文，用于生成 Authorization=sha256(password) (可以不填，不填自动获取本机的密码)")
 	flag.StringVar(&method, "X", "GET", "HTTP 方法：GET/POST/PUT/DELETE...")
 	flag.StringVar(&endpoint, "e", "", `请求路径或完整URL，如 "/api/xxx" (必填)`)

@@ -1,6 +1,6 @@
 #!/system/bin/sh
 
-PKG="com.minikano.f50_sms"
+PKG="com.minikano.f50_sms.redesign"
 ACT="com.minikano.f50_sms.MainActivity"
 CHECK_INTERVAL=30
 LOG_FILE="/sdcard/ufi_keep_alive.log"

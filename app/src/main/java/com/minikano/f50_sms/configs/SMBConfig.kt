@@ -7,7 +7,7 @@ import java.io.File
 import java.io.IOException
 
 object SMBConfig {
-    fun writeConfig(context: Context,command:String = "/system/bin/sh /data/data/com.minikano.f50_sms/files/samba_exec.sh"): String? {
+    fun writeConfig(context: Context,command:String = "/system/bin/sh /data/data/com.minikano.f50_sms.redesign/files/samba_exec.sh"): String? {
         val zteModel = KanoUtils.getVendorName()?.trim()
         var model = Build.MODEL
         if(!zteModel.isNullOrEmpty()){

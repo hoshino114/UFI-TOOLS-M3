@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
         const val REQUEST_CODE_NOTIFICATION = 114514
         const val REQUEST_CODE_SMS = 1919810
     }
-    private val port = 2333
+    private val port = 2334
     private val PREFS_NAME = "kano_ZTE_store"
     private val PREF_GATEWAY_IP = "gateway_ip"
     private val PREF_LOGIN_TOKEN = "login_token"
@@ -74,8 +74,8 @@ class MainActivity : ComponentActivity() {
     private val PREF_ISDEBUG = "kano_is_debug"
     private val PREF_WAKELOCK = "wakeLock"
     private val serverStatusLiveData = MutableLiveData<Boolean>()
-    private val SERVER_INTENT = "com.minikano.f50_sms.SERVER_STATUS_CHANGED"
-    private val UI_INTENT = "com.minikano.f50_sms.UI_STATUS_CHANGED"
+    private val SERVER_INTENT = "com.minikano.f50_sms.redesign.SERVER_STATUS_CHANGED"
+    private val UI_INTENT = "com.minikano.f50_sms.redesign.UI_STATUS_CHANGED"
     fun hasUsageAccessPermission(context: Context): Boolean {
         val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
         val mode = appOps.checkOpNoThrow(

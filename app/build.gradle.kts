@@ -52,7 +52,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.minikano.f50_sms"
+        applicationId = "com.minikano.f50_sms.redesign"
         minSdk = 26
         targetSdk = 33
         // 动态生成 versionCode 为 yyyyMMdd 格式

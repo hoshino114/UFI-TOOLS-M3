@@ -1095,13 +1095,13 @@ const saveConfig = async (file, outputFile) => {
 
         if (res.url) {
             let foundFile = await runShellWithRoot(`
-                        ls /data/data/com.minikano.f50_sms/files/${res.url}
+                        ls /data/data/com.minikano.f50_sms.redesign/files/${res.url}
                     `)
             if (!foundFile.content) {
                 throw t('toast_upload_failed')
             }
             let resShell = await runShellWithRoot(`
-                        mv /data/data/com.minikano.f50_sms/files/${res.url} ${outputFile}
+                        mv /data/data/com.minikano.f50_sms.redesign/files/${res.url} ${outputFile}
                     `)
             if (resShell.success) {
                 return true
@@ -1206,12 +1206,12 @@ async function uploadFileKano(file, needRename = false) {
                     console.log("文件名合法性测试结果：", regResult)
                     //重命名
                     if (needRename && regResult) {
-                        const res = await runShellWithUser(`mv /data/data/com.minikano.f50_sms/files/uploads/${resFileName} /data/data/com.minikano.f50_sms/files/uploads/${file.name}`)
+                        const res = await runShellWithUser(`mv /data/data/com.minikano.f50_sms.redesign/files/uploads/${resFileName} /data/data/com.minikano.f50_sms.redesign/files/uploads/${file.name}`)
                         if (!res.success) {
                             createToast(t('toast_oprate_failed'), 'red')
                             return null
                         }
-                        const res1 = await runShellWithUser(`ls /data/data/com.minikano.f50_sms/files/uploads/${file.name}`)
+                        const res1 = await runShellWithUser(`ls /data/data/com.minikano.f50_sms.redesign/files/uploads/${file.name}`)
                         if (!res1.success) {
                             createToast(t('toast_oprate_failed'), 'red')
                             return null
