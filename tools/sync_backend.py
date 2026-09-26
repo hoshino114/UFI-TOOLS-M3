@@ -82,7 +82,7 @@ def main():
     # --- 0. 上游相对上次同步的变化分类（信息用；未分类的给警告） ---
     prev = ""
     if os.path.exists(os.path.join(REPO_ROOT, MARKER)):
-        prev = open(os.path.join(REPO_ROOT, MARKER)).readline().strip()
+        prev = open(os.path.join(REPO_ROOT, MARKER), encoding="utf-8-sig").readline().strip()
     upstream_files = []
     if prev:
         upstream_files = git("diff", "--name-only", prev, ref).stdout.split()
