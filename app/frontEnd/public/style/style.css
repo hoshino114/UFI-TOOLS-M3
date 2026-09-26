@@ -327,7 +327,7 @@ option {
 /* 主标题 */
 .main-title {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: 0.55rem;
     margin: 0.85rem 0.25rem 0.75rem;
     flex-wrap: wrap;
@@ -356,7 +356,6 @@ option {
     padding: 0.15rem 0.65rem;
     border-radius: 999px;
     border: 1px solid var(--md-outline-variant);
-    margin-bottom: 0.3rem;
 }
 
 .main-title #MODEL:active {
@@ -1661,6 +1660,7 @@ li.dragging {
     min-height: 0;
     width: 100%;
     align-items: flex-start;
+    gap: 16px;
 }
 #mainCol {
     flex: 1 1 auto;
@@ -1673,14 +1673,15 @@ li.dragging {
     flex: 0 0 auto;
     align-self: stretch;
     position: sticky;
-    top: 0;
-    height: 100vh;
-    height: 100dvh;
+    top: 12px;
+    height: calc(100vh - 24px);
+    height: calc(100dvh - 24px);
     overflow-y: auto;
     box-sizing: border-box;
     padding: 12px 10px 40px;
     background: var(--md-surface-container);
-    border-right: 1px solid var(--md-outline-variant);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 20px;
     z-index: 60;
 }
 .sidebar-head {
@@ -1799,6 +1800,7 @@ body.sidebar-hidden .sidebar {
         height: 100vh;
         height: 100dvh;
         transform: translateX(-105%);
+        border-radius: 0 20px 20px 0;
         transition: transform .25s ease;
         z-index: 200;
         box-shadow: var(--md-elevation-3, 0 8px 24px rgba(0, 0, 0, .28));
