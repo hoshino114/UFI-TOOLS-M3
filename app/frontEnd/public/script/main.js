@@ -4158,49 +4158,9 @@ function main_func() {
         onClosePayModal()
     }
 
-    //展开收起
-    // 配置观察器_菜单
-    (() => {
-        const { el: collapseMenuEl } = createCollapseObserver(document.querySelector(".collapse_menu"))
-        collapseMenuEl.dataset.name = localStorage.getItem('collapse_menu') || 'open'
-        const collapseBtn = document.querySelector('#collapseBtn_menu')
-        const switchComponent = createSwitch({
-            value: collapseMenuEl.dataset.name == 'open',
-            className: 'collapse_menu',
-            onChange: (newVal) => {
-                if (collapseMenuEl && collapseMenuEl.dataset) {
-                    collapseMenuEl.dataset.name = newVal ? 'open' : 'close'
-                    localStorage.setItem('collapse_menu', collapseMenuEl.dataset.name)
-                }
-            }
-        });
-        collapseBtn.appendChild(switchComponent);
-    })();
-
-    //展开收起
-    // 配置观察器_基本状态
-    collapseGen("#collapse_status_btn", "#collapse_status", "collapse_status")
-
-    //展开收起
-    // 配置观察器_TTYD
-    collapseGen("#collapse_ttyd_btn", "#collapse_ttyd", "collapse_ttyd")
-
-    //展开收起
-    // 配置观察器_锁频
-    collapseGen("#collapse_lkband_btn", "#collapse_lkband", "collapse_lkband")
-
-    // 配置观察器_锁基站
-    collapseGen("#collapse_lkcell_btn", "#collapse_lkcell", "collapse_lkcell", (isOpen) => {
-        if (isOpen == 'open') {
-            toggleLkcellOpen(true)
-        } else {
-            toggleLkcellOpen(false)
-        }
-    })
-
-    //展开收起
-    const collapse_lkcell_stor = localStorage.getItem('collapse_lkcell') || 'open'
-    collapse_lkcell_stor == 'open' ? toggleLkcellOpen(true) : toggleLkcellOpen(false)
+    // 分区折叠胶囊开关已移除（侧边栏接管分区导航），分区内容常驻展开
+    // 锁基站信息刷新默认开启（沿用原展开状态），仍可用 #lkCellRefreshBtn 手动开关
+    toggleLkcellOpen(true)
 
     //软件更新
     const queryUpdate = async () => {
@@ -5297,9 +5257,6 @@ function main_func() {
         enableDHCP.value = status == 'open' ? "SERVER" : "DISABLE"
     })
 
-    //设备监控
-    collapseGen("#collapse_device_mon_btn", "#collapse_device_mon", 'collapse_device_mon', async (status) => {
-    })
 
     //改变刷新频率
     const changeRefreshRate = (e) => {
