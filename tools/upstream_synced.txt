@@ -1,0 +1,2 @@
+﻿925bb63dfa25bf103527d8d8c1951e3746d2a88d
+2026-09-26 feat:新增开机时长显示（基线：fork 时上游 http-server-version HEAD）

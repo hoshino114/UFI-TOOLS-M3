@@ -2,7 +2,7 @@ name: Android Release CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "http-server-version" ]
   workflow_dispatch:
 
 jobs:

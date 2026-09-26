@@ -1,0 +1,235 @@
+commit ca82253b357f6a73a45d510fc52e37180b3be7bd
+Author: hoshino114 <110707694+hoshino114@users.noreply.github.com>
+Date:   Sat Sep 26 12:00:58 2026 +0800
+
+    refactor: 端口 2333→2334，包名改为 com.minikano.f50_sms.redesign（与原版共存），应用名 UFI-TOOLS RE
+    
+    - Web 服务端口 2334（WebService/MainActivity/前端跳转/文档）
+    - applicationId 独立，双 app 可共存；shell 脚本、JS、ufi_req.go 内路径与包名引用同步更新
+    - 组件引用保留原类全名（com.minikano.f50_sms.MainActivity 等）
+
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+index c97056b..42526d6 100644
+--- a/app/build.gradle.kts
++++ b/app/build.gradle.kts
+@@ -52,7 +52,7 @@ android {
+     compileSdk = 35
+ 
+     defaultConfig {
+-        applicationId = "com.minikano.f50_sms"
++        applicationId = "com.minikano.f50_sms.redesign"
+         minSdk = 26
+         targetSdk = 33
+         // 动态生成 versionCode 为 yyyyMMdd 格式
+diff --git a/app/src/main/assets/shell/login.sh b/app/src/main/assets/shell/login.sh
+index 181d419..d58c23d 100644
+--- a/app/src/main/assets/shell/login.sh
++++ b/app/src/main/assets/shell/login.sh
+@@ -8,8 +8,8 @@ umask 077
+ MAX_RETRIES=3
+ retry_count=0
+ 
+-PASS_FILE="/data/data/com.minikano.f50_sms/shared_prefs/kano_ZTE_store.xml"
+-SHA256_BIN="/data/data/com.minikano.f50_sms/files/sha256"
++PASS_FILE="/data/data/com.minikano.f50_sms.redesign/shared_prefs/kano_ZTE_store.xml"
++SHA256_BIN="/data/data/com.minikano.f50_sms.redesign/files/sha256"
+ BACKUP_PASS="Wa@9w+YWRtaW4="
+ 
+ # Extract login_token from XML
+diff --git a/app/src/main/assets/shell/samba_exec.sh b/app/src/main/assets/shell/samba_exec.sh
+index 9ca8ed4..c40cc29 100644
+--- a/app/src/main/assets/shell/samba_exec.sh
++++ b/app/src/main/assets/shell/samba_exec.sh
+@@ -6,11 +6,11 @@ MAX_SIZE=$((4 * 1024 * 1024))  # 4MB = 4 * 1024 * 1024 bytes
+ FLAG_FILE="/data/local/tmp/boot_once.flag"
+ THRESHOLD=120  # uptime 120s
+ 
+-SOCKET_DIR="/data/data/com.minikano.f50_sms/files"
++SOCKET_DIR="/data/data/com.minikano.f50_sms.redesign/files"
+ SOCKET_FILE="$SOCKET_DIR/kano_root_shell.sock"
+-SOCAT_PATH="/data/data/com.minikano.f50_sms/files/socat"
+-TTYD_PATH="/data/data/com.minikano.f50_sms/files/ttyd"
+-LOGIN_PATH="/data/data/com.minikano.f50_sms/files/login.sh"
++SOCAT_PATH="/data/data/com.minikano.f50_sms.redesign/files/socat"
++TTYD_PATH="/data/data/com.minikano.f50_sms.redesign/files/ttyd"
++LOGIN_PATH="/data/data/com.minikano.f50_sms.redesign/files/login.sh"
+ BOOTUP_SCRIPT_PATH="/sdcard/ufi_tools_boot.sh"
+ SCHEDULE_SCRIPT_PATH="/sdcard/ufi_tools_schedule.sh"
+ KEEP_ALIVE_SCRIPT_PATH="$SOCKET_DIR/ufi_keep_alive.sh"
+@@ -209,7 +209,7 @@ check_ttyd_running(){
+       # fallback to ps -ef if pgrep fails
+       if ! ps -ef | grep "ttyd --writable --port 1146 $LOGIN_PATH" | grep -v grep > /dev/null; then
+           echo "[`date`] start ttyd..." >> "$LOG_FILE"
+-          export PATH="/data/data/com.minikano.f50_sms/files:/data/data/com.termux/files/usr/bin:$PATH"
++          export PATH="/data/data/com.minikano.f50_sms.redesign/files:/data/data/com.termux/files/usr/bin:$PATH"
+           "$TTYD_PATH" --writable --port 1146 $LOGIN_PATH &
+       fi
+   fi
+@@ -253,22 +253,22 @@ lock_smb_conf(){
+ }
+ 
+ permission_keep(){
+-    pm grant com.minikano.f50_sms android.permission.READ_SMS >/dev/null 2>&1 || true
+-    pm grant com.minikano.f50_sms android.permission.RECEIVE_SMS >/dev/null 2>&1 || true
+-    pm grant com.minikano.f50_sms android.permission.SEND_SMS >/dev/null 2>&1 || true
+-    pm grant com.minikano.f50_sms android.permission.READ_EXTERNAL_STORAGE >/dev/null 2>&1 || true
+-    pm grant com.minikano.f50_sms android.permission.WRITE_EXTERNAL_STORAGE >/dev/null 2>&1 || true
+-    pm grant com.minikano.f50_sms android.permission.READ_PHONE_STATE >/dev/null 2>&1 || true
+-    pm grant com.minikano.f50_sms android.permission.POST_NOTIFICATIONS >/dev/null 2>&1 || true
+-
+-    appops set com.minikano.f50_sms GET_USAGE_STATS allow >/dev/null 2>&1 || true
+-    appops set com.minikano.f50_sms android:get_usage_stats allow >/dev/null 2>&1 || true
+-    appops set com.minikano.f50_sms POST_NOTIFICATION allow >/dev/null 2>&1 || true
+-    appops set com.minikano.f50_sms AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore >/dev/null 2>&1 || true
+-    appops set --uid $(dumpsys package com.minikano.f50_sms 2>/dev/null | grep -m1 userId= | cut -d= -f2) AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore
+-    settings put secure enabled_notification_listeners com.minikano.f50_sms/com.minikano.f50_sms.MyListenerService >/dev/null 2>&1 || true
+-    dumpsys deviceidle whitelist +com.minikano.f50_sms >/dev/null 2>&1 || true
+-    cmd app_hibernation set-state com.minikano.f50_sms false >/dev/null 2>&1 || true
++    pm grant com.minikano.f50_sms.redesign android.permission.READ_SMS >/dev/null 2>&1 || true
++    pm grant com.minikano.f50_sms.redesign android.permission.RECEIVE_SMS >/dev/null 2>&1 || true
++    pm grant com.minikano.f50_sms.redesign android.permission.SEND_SMS >/dev/null 2>&1 || true
++    pm grant com.minikano.f50_sms.redesign android.permission.READ_EXTERNAL_STORAGE >/dev/null 2>&1 || true
++    pm grant com.minikano.f50_sms.redesign android.permission.WRITE_EXTERNAL_STORAGE >/dev/null 2>&1 || true
++    pm grant com.minikano.f50_sms.redesign android.permission.READ_PHONE_STATE >/dev/null 2>&1 || true
++    pm grant com.minikano.f50_sms.redesign android.permission.POST_NOTIFICATIONS >/dev/null 2>&1 || true
++
++    appops set com.minikano.f50_sms.redesign GET_USAGE_STATS allow >/dev/null 2>&1 || true
++    appops set com.minikano.f50_sms.redesign android:get_usage_stats allow >/dev/null 2>&1 || true
++    appops set com.minikano.f50_sms.redesign POST_NOTIFICATION allow >/dev/null 2>&1 || true
++    appops set com.minikano.f50_sms.redesign AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore >/dev/null 2>&1 || true
++    appops set --uid $(dumpsys package com.minikano.f50_sms.redesign 2>/dev/null | grep -m1 userId= | cut -d= -f2) AUTO_REVOKE_PERMISSIONS_IF_UNUSED ignore
++    settings put secure enabled_notification_listeners com.minikano.f50_sms.redesign/com.minikano.f50_sms.MyListenerService >/dev/null 2>&1 || true
++    dumpsys deviceidle whitelist +com.minikano.f50_sms.redesign >/dev/null 2>&1 || true
++    cmd app_hibernation set-state com.minikano.f50_sms.redesign false >/dev/null 2>&1 || true
+     settings put global stay_on_while_plugged_in 0
+     echo "[`date`] permission_keep done!" >> "$LOG_FILE"
+ }
+diff --git a/app/src/main/assets/shell/ufi_keep_alive.sh b/app/src/main/assets/shell/ufi_keep_alive.sh
+index de24590..4719eb7 100644
+--- a/app/src/main/assets/shell/ufi_keep_alive.sh
++++ b/app/src/main/assets/shell/ufi_keep_alive.sh
+@@ -1,6 +1,6 @@
+ #!/system/bin/sh
+ 
+-PKG="com.minikano.f50_sms"
++PKG="com.minikano.f50_sms.redesign"
+ ACT="com.minikano.f50_sms.MainActivity"
+ CHECK_INTERVAL=30
+ LOG_FILE="/sdcard/ufi_keep_alive.log"
+diff --git a/app/src/main/assets/shell/ufi_req.go b/app/src/main/assets/shell/ufi_req.go
+index 13e6ecc..7d03345 100644
+--- a/app/src/main/assets/shell/ufi_req.go
++++ b/app/src/main/assets/shell/ufi_req.go
+@@ -106,7 +106,7 @@ type Item struct {
+ }
+ 
+ func GetLoginTokenSHA256() (string, error) {
+-	path := "/data/data/com.minikano.f50_sms/shared_prefs/kano_ZTE_store.xml"
++	path := "/data/data/com.minikano.f50_sms.redesign/shared_prefs/kano_ZTE_store.xml"
+ 
+ 	data, err := os.ReadFile(path)
+ 	if err != nil {
+@@ -142,7 +142,7 @@ func main() {
+ 	//获取本机sha256密码
+ 	tokenSHA256, _ := GetLoginTokenSHA256()
+ 
+-	flag.StringVar(&host, "host", "192.168.0.1:2333", `目标地址，比如 "192.168.0.1" 或 "192.168.0.1:2333" (选填)`)
++	flag.StringVar(&host, "host", "192.168.0.1:2334", `目标地址，比如 "192.168.0.1" 或 "192.168.0.1:2334" (选填)`)
+ 	flag.StringVar(&password, "pass", "", "密码明文，用于生成 Authorization=sha256(password) (可以不填，不填自动获取本机的密码)")
+ 	flag.StringVar(&method, "X", "GET", "HTTP 方法：GET/POST/PUT/DELETE...")
+ 	flag.StringVar(&endpoint, "e", "", `请求路径或完整URL，如 "/api/xxx" (必填)`)
+diff --git a/app/src/main/java/com/minikano/f50_sms/MainActivity.kt b/app/src/main/java/com/minikano/f50_sms/MainActivity.kt
+index e4e4320..5c94bb4 100644
+--- a/app/src/main/java/com/minikano/f50_sms/MainActivity.kt
++++ b/app/src/main/java/com/minikano/f50_sms/MainActivity.kt
+@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
+         const val REQUEST_CODE_NOTIFICATION = 114514
+         const val REQUEST_CODE_SMS = 1919810
+     }
+-    private val port = 2333
++    private val port = 2334
+     private val PREFS_NAME = "kano_ZTE_store"
+     private val PREF_GATEWAY_IP = "gateway_ip"
+     private val PREF_LOGIN_TOKEN = "login_token"
+@@ -74,8 +74,8 @@ class MainActivity : ComponentActivity() {
+     private val PREF_ISDEBUG = "kano_is_debug"
+     private val PREF_WAKELOCK = "wakeLock"
+     private val serverStatusLiveData = MutableLiveData<Boolean>()
+-    private val SERVER_INTENT = "com.minikano.f50_sms.SERVER_STATUS_CHANGED"
+-    private val UI_INTENT = "com.minikano.f50_sms.UI_STATUS_CHANGED"
++    private val SERVER_INTENT = "com.minikano.f50_sms.redesign.SERVER_STATUS_CHANGED"
++    private val UI_INTENT = "com.minikano.f50_sms.redesign.UI_STATUS_CHANGED"
+     fun hasUsageAccessPermission(context: Context): Boolean {
+         val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+         val mode = appOps.checkOpNoThrow(
+diff --git a/app/src/main/java/com/minikano/f50_sms/WebService.kt b/app/src/main/java/com/minikano/f50_sms/WebService.kt
+index 8858787..28b6901 100644
+--- a/app/src/main/java/com/minikano/f50_sms/WebService.kt
++++ b/app/src/main/java/com/minikano/f50_sms/WebService.kt
+@@ -22,9 +22,9 @@ import kotlin.concurrent.thread
+ 
+ class WebService : Service() {
+     private var webServer: KanoWebServer? = null
+-    private val port = 2333
+-    private val SERVER_INTENT = "com.minikano.f50_sms.SERVER_STATUS_CHANGED"
+-    private val UI_INTENT = "com.minikano.f50_sms.UI_STATUS_CHANGED"
++    private val port = 2334
++    private val SERVER_INTENT = "com.minikano.f50_sms.redesign.SERVER_STATUS_CHANGED"
++    private val UI_INTENT = "com.minikano.f50_sms.redesign.UI_STATUS_CHANGED"
+ 
+     @Volatile
+     private var allowAutoStart = true
+@@ -95,7 +95,7 @@ class WebService : Service() {
+                 allowAutoStart = true
+                 try {
+                     Log.d("UFI_TOOLS_LOG", "正在启动web服务，绑定地址：http://0.0.0.0:$port")
+-                    val server = KanoWebServer(applicationContext, 2333, currentIp)
++                    val server = KanoWebServer(applicationContext, port, currentIp)
+                     server.start()
+                     webServer = server
+                     sendStickyBroadcast(Intent(SERVER_INTENT).putExtra("status", true))
+diff --git a/app/src/main/java/com/minikano/f50_sms/configs/SMBConfig.kt b/app/src/main/java/com/minikano/f50_sms/configs/SMBConfig.kt
+index 6dee882..9db25c8 100644
+--- a/app/src/main/java/com/minikano/f50_sms/configs/SMBConfig.kt
++++ b/app/src/main/java/com/minikano/f50_sms/configs/SMBConfig.kt
+@@ -7,7 +7,7 @@ import java.io.File
+ import java.io.IOException
+ 
+ object SMBConfig {
+-    fun writeConfig(context: Context,command:String = "/system/bin/sh /data/data/com.minikano.f50_sms/files/samba_exec.sh"): String? {
++    fun writeConfig(context: Context,command:String = "/system/bin/sh /data/data/com.minikano.f50_sms.redesign/files/samba_exec.sh"): String? {
+         val zteModel = KanoUtils.getVendorName()?.trim()
+         var model = Build.MODEL
+         if(!zteModel.isNullOrEmpty()){
+diff --git a/app/src/main/java/com/minikano/f50_sms/modules/ota/otaModule.kt b/app/src/main/java/com/minikano/f50_sms/modules/ota/otaModule.kt
+index da3df50..88c4802 100644
+--- a/app/src/main/java/com/minikano/f50_sms/modules/ota/otaModule.kt
++++ b/app/src/main/java/com/minikano/f50_sms/modules/ota/otaModule.kt
+@@ -210,7 +210,7 @@ fun Route.otaModule(context: Context) {
+                 #!/system/bin/sh
+                 nohup sh -c '
+                 pm install -r -g "${ApkState.downloadResultPath}" >> /sdcard/ufi_tools_update.log 2>&1
+-                dumpsys activity start-activity -n com.minikano.f50_sms/.MainActivity --ez silent true >> /sdcard/ufi_tools_update.log 2>&1
++                dumpsys activity start-activity -n com.minikano.f50_sms.redesign/com.minikano.f50_sms.MainActivity --ez silent true >> /sdcard/ufi_tools_update.log 2>&1
+                 sync
+                 sync
+                 echo "${'$'}(date)install and sync complete!" >> /sdcard/ufi_tools_update.log
+@@ -253,7 +253,7 @@ fun Route.otaModule(context: Context) {
+                     val scriptText = """
+                     #!/system/bin/sh
+                     pm install -r -g /sdcard/ufi_tools_latest.apk >> /sdcard/ufi_tools_update.log 2>&1
+-                    dumpsys activity start-activity -n com.minikano.f50_sms/.MainActivity >> /sdcard/ufi_tools_update.log 2>&1
++                    dumpsys activity start-activity -n com.minikano.f50_sms.redesign/com.minikano.f50_sms.MainActivity >> /sdcard/ufi_tools_update.log 2>&1
+                     sync
+                     sync
+                     echo "$(date)install and sync complete!" >> /sdcard/ufi_tools_update.log
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+index a25ecb3..e875778 100644
+--- a/app/src/main/res/values/strings.xml
++++ b/app/src/main/res/values/strings.xml
+@@ -1,3 +1,3 @@
+ <resources>
+-    <string name="app_name">UFI-TOOLS_WEB</string>
++    <string name="app_name">UFI-TOOLS RE</string>
+ </resources>
+\ No newline at end of file
