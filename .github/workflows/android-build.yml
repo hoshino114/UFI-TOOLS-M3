@@ -2,7 +2,8 @@ name: Android Release CI
 
 on:
   push:
-    branches: [ "http-server-version" ]
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build-release:
@@ -24,6 +25,17 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Rebuild ufi_req from source (linux/arm64)
+        working-directory: app/src/main/assets/shell
+        run: |
+          GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -ldflags="-s -w" -o ufi_req ufi_req.go
+          python3 -c "import struct;d=open('ufi_req','rb').read(20);assert d[:4]==b'\x7fELF' and struct.unpack('<H',d[18:20])[0]==0xb7,'not aarch64 ELF';print('ufi_req rebuilt: aarch64 ELF OK')"
+
       - name: Install Node.js dependencies
         working-directory: app/frontEnd
         run: npm install --no-package-lock
@@ -33,3 +45,19 @@ jobs:
 
       - name: Build with tag version
         run: ./gradlew assembleDebug
+
+      - name: Rename APK to release naming rule
+        run: |
+          APK=$(ls app/build/outputs/apk/debug/*.apk | head -1)
+          VERSION=$(sed -n 's/.*versionName = "\([^"]*\)".*/\1/p' app/build.gradle.kts)
+          DATE=$(date +%Y%m%d)
+          TIME=$(date +%H%M)
+          NEWNAME="UFI-TOOLS_WEB_V${VERSION}_${DATE}_${TIME}.apk"
+          cp "$APK" "$NEWNAME"
+          echo "APK_NAME=$NEWNAME" >> "$GITHUB_ENV"
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: UFI-TOOLS-RE-apk
+          path: ${{ env.APK_NAME }}
