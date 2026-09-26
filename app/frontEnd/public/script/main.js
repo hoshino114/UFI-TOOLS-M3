@@ -5936,6 +5936,27 @@ echo ${flag ? '1' : '0'} > /sys/devices/system/cpu/cpu3/online
             sortBtn.style.height = '20px'
             sortBtn.innerHTML = `<svg fill="var(--dark-text-color)" stroke="currentColor"  width="20px" height="20px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M909.3 506.3L781.7 405.6c-4.7-3.7-11.7-0.4-11.7 5.7V476H548V254h64.8c6 0 9.4-7 5.7-11.7L517.7 114.7c-2.9-3.7-8.5-3.7-11.3 0L405.6 242.3c-3.7 4.7-0.4 11.7 5.7 11.7H476v222H254v-64.8c0-6-7-9.4-11.7-5.7L114.7 506.3c-3.7 2.9-3.7 8.5 0 11.3l127.5 100.8c4.7 3.7 11.7 0.4 11.7-5.7V548h222v222h-64.8c-6 0-9.4 7-5.7 11.7l100.8 127.5c2.9 3.7 8.5 3.7 11.3 0l100.8-127.5c3.7-4.7 0.4-11.7-5.7-11.7H548V548h222v64.8c0 6 7 9.4 11.7 5.7l127.5-100.8c3.7-2.9 3.7-8.5 0.1-11.4z" /></svg>`
 
+            const upBtn = document.createElement('div')
+            upBtn.classList.add('drag-option', 'move-btn')
+            upBtn.textContent = '\u25B2'
+            upBtn.onclick = () => {
+                const j = index - 1
+                if (j < 0) return
+                const moved = plugins.splice(index, 1)[0]
+                plugins.splice(j, 0, moved)
+                renderPluginList()
+            }
+            const downBtn = document.createElement('div')
+            downBtn.classList.add('drag-option', 'move-btn')
+            downBtn.textContent = '\u25BC'
+            downBtn.onclick = () => {
+                const j = index + 1
+                if (j >= plugins.length) return
+                const moved = plugins.splice(index, 1)[0]
+                plugins.splice(j, 0, moved)
+                renderPluginList()
+            }
+
             const text = document.createElement('span')
             text.innerHTML = item.disabed ? `<del style="opacity:.6">${item.name}</del>` : item.name
             text.style.padding = '2px 6px'
@@ -5972,10 +5993,16 @@ echo ${flag ? '1' : '0'} > /sys/devices/system/cpu/cpu3/online
             }
 
             el.appendChild(sortBtn)
+            el.appendChild(upBtn)
+            el.appendChild(downBtn)
             el.appendChild(text)
             el.appendChild(deleteBtn)
             listEl.appendChild(el)
         })
+
+        if (window.onPluginListChanged) {
+            try { window.onPluginListChanged(plugins.map(p => ({ name: p.name, disabed: p.disabed }))) } catch (e) { }
+        }
 
         const enablePlugin = (flag = false) => {
             const editSinglePlugin = document.querySelector('#editSinglePlugin')

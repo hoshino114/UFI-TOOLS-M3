@@ -939,5 +939,13 @@
     "theme_mode_auto": "自動",
     "theme_mode_light": "ライト",
     "theme_mode_dark": "ダーク",
-    "theme_hue": "テーマの色相"
+    "theme_hue": "テーマの色相",
+    "quick_switches": "クイックスイッチ",
+    "sidebar_title": "メニュー",
+    "nav_home": "ホーム",
+    "nav_lock_band": "帯域ロック",
+    "nav_lock_cell": "基地局ロック",
+    "nav_ttyd": "TTYD",
+    "nav_plugins": "プラグイン",
+    "plugin_no_page": "このプラグインに専用ページはありません（バックグラウンドで動作）"
 }

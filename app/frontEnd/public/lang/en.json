@@ -939,5 +939,13 @@
     "theme_mode_auto": "Auto",
     "theme_mode_light": "Light",
     "theme_mode_dark": "Dark",
-    "theme_hue": "Accent hue"
+    "theme_hue": "Accent hue",
+    "quick_switches": "Quick Switches",
+    "sidebar_title": "Menu",
+    "nav_home": "Home",
+    "nav_lock_band": "Lock Band",
+    "nav_lock_cell": "Lock Cell",
+    "nav_ttyd": "TTYD",
+    "nav_plugins": "Plugins",
+    "plugin_no_page": "This plugin has no dedicated page; it works in the background"
 }

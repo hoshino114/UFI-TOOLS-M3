@@ -940,5 +940,13 @@
     "theme_mode_auto": "自动",
     "theme_mode_light": "浅色",
     "theme_mode_dark": "深色",
-    "theme_hue": "主题色调"
+    "theme_hue": "主题色调",
+    "quick_switches": "快捷开关",
+    "sidebar_title": "菜单",
+    "nav_home": "主页",
+    "nav_lock_band": "锁频段",
+    "nav_lock_cell": "锁基站",
+    "nav_ttyd": "TTYD",
+    "nav_plugins": "插件",
+    "plugin_no_page": "该插件没有专属页面，功能已在后台生效"
 }

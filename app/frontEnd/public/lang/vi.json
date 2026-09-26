@@ -939,5 +939,13 @@
     "theme_mode_auto": "Tự động",
     "theme_mode_light": "Sáng",
     "theme_mode_dark": "Tối",
-    "theme_hue": "Tông màu chủ đạo"
+    "theme_hue": "Tông màu chủ đạo",
+    "quick_switches": "Công tắc nhanh",
+    "sidebar_title": "Menu",
+    "nav_home": "Trang chủ",
+    "nav_lock_band": "Khóa băng tần",
+    "nav_lock_cell": "Khóa trạm gốc",
+    "nav_ttyd": "TTYD",
+    "nav_plugins": "Plugin",
+    "plugin_no_page": "Plugin này không có trang riêng; chức năng chạy nền"
 }
